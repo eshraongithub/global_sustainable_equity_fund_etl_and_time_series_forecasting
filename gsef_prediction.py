@@ -1,3 +1,8 @@
+import time
+start = time.time()
+
+## Import libraries
+import time
 import datetime
 import pandas as pd
 import io
@@ -33,6 +38,9 @@ import os
 if os.path.exists(graph_file):
   os.remove(graph_file)
 else:
-  print("The graph didn't exist")
+  print("The graph didn't exist and it has been created.")
 
 plt.savefig('gsef_folder/gsef_historical.png')
+
+end = time.time()
+print('\n Success! Your GSEF data has been updated in', int(end - start), 'seconds.')
