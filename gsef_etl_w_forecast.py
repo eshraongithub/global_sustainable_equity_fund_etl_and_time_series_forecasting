@@ -44,7 +44,7 @@ else:
 
 plt.savefig('gsef_folder/gsef_historical.png')
 
-# GSEF Prediction
+# GSEF Forecast
 ## Imports & data loading
 import pmdarima as pm
 from pmdarima.model_selection import train_test_split
@@ -131,36 +131,36 @@ print(model.summary())
 
 ## Forecast the Price for the next 10 business days
 # Forecast the Priece for the next 10 business days
-prediction= model.predict(start= len(gsef_selected), end= len(gsef_selected)+10, type= 'levels')
+forecast= model.predict(start= len(gsef_selected), end= len(gsef_selected)+10, type= 'levels')
 
 following_day= gsef_selected.Date.iloc[-1]+ pd.DateOffset(1)
 
 index_future_dates= pd.date_range(start= following_day, periods=10, freq='B')
 
-prediction_df = pd.DataFrame(prediction, columns = ['Close'], index= pd.DatetimeIndex(index_future_dates)).reset_index(level=0)
+forecast_df = pd.DataFrame(forecast, columns = ['Close'], index= pd.DatetimeIndex(index_future_dates)).reset_index(level=0)
 
-prediction_df.rename(columns={'index': 'Date'}, inplace=True)
+forecast_df.rename(columns={'index': 'Date'}, inplace=True)
 
-existing_with_prediction= pd.concat([gsef_selected, prediction_df], ignore_index=True, sort=False)
+existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=True, sort=False)
 
 ## Visualise and save the forecasts
 plt.figure(figsize=(14, 14))
 
-plt.plot(existing_with_prediction['Date'][-10:], existing_with_prediction['Close'][-10:], color='dodgerblue')
+plt.plot(existing_with_forecast['Date'][-10:], existing_with_forecast['Close'][-10:], color='dodgerblue')
 
 plt.ylabel('Price')
 
 plt.title('GSEF 10 Day Forecast')
 
-prediction_chart= 'gsef_folder/gsef_10_day_prediction.png'
+forecast_chart= 'gsef_folder/gsef_10_day_forecast.png'
 
 import os
-if os.path.exists(prediction_chart):
-  os.remove(prediction_chart)
+if os.path.exists(forecast_chart):
+  os.remove(forecast_chart)
 else:
-  print("The prediction chart didn't exist and it has been created.")
+  print("The Forecast chart didn't exist and it has been created.")
 
-plt.savefig('gsef_folder/gsef_10_day_prediction.png', dpi=100)
+plt.savefig('gsef_folder/gsef_10_day_forecast.png', dpi=100)
 
 ## Time Elapsed
 # Calculate and print the time elapsed to run ETL process and the date and time of the latest run
