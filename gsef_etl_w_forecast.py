@@ -144,13 +144,13 @@ forecast_df.rename(columns={'index': 'Date'}, inplace=True)
 existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=True, sort=False)
 
 ## Visualise and save the forecasts
-plt.figure(figsize=(14, 14))
+plt.figure(figsize=(18, 18))
 
 plt.plot(existing_with_forecast['Date'][-10:], existing_with_forecast['Close'][-10:], color='dodgerblue')
 
 plt.ylabel('Price')
 
-plt.title('GSEF 10 Day Forecast')
+plt.title('GSEF 10 Business Days Forecast')
 
 forecast_chart= 'gsef_folder/gsef_10_day_forecast.png'
 
