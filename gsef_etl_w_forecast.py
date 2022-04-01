@@ -92,7 +92,6 @@ adf_diffs = ndiffs(y_train, alpha=0.05, test='adf', max_d=6)
 n_diffs = max(adf_diffs, kpss_diffs)
 
 print(f"Estimated differencing term: {n_diffs}")
-# Estimated differencing term: 1
 
 ## Fitting our model
 auto = pm.auto_arima(y_train, d=n_diffs, seasonal=True, stepwise=True,
