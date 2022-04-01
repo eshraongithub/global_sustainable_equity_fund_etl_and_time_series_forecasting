@@ -124,8 +124,6 @@ for new_ob in y_test:
 
 print(f"Mean squared error: {mean_squared_error(y_test, forecasts)}")
 print(f"SMAPE: {smape(y_test, forecasts)}")
-# Mean squared error: 28.692414878594857
-# SMAPE: 0.8443963447520769
 
 print(model.summary())
 
