@@ -16,9 +16,9 @@ gsef_latest = table[['Date', 'Close']]
 gsef_latest_selected= gsef_latest.copy()
 
 gsef_latest_selected['Date'] = gsef_latest_selected.loc[:,'Date'].str[-12:]
-gsef_latest_selected['Date'] = pd.to_datetime(gsef_latest_selected['Date'])
+gsef_latest_selected['Date'] = pd.to_datetime(gsef_latest_selected['Date'], dayfirst=True)
 
-gsef_historical= pd.read_csv('gsef_folder/historical_gsef.csv', parse_dates=['Date'])
+gsef_historical= pd.read_csv('gsef_folder/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
 
 gsef = pd.concat([gsef_latest_selected, gsef_historical], ignore_index=True).sort_values(by="Date")
 
