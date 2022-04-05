@@ -55,7 +55,7 @@ gsef_selected= gsef[['Date','Close']]
 y = gsef_selected['Close'].values
 
 ## Data splitting
-train_data, test_data = gsef_selected[0:int(len(gsef_selected)*0.8)], gsef_selected[int(len(gsef_selected)*0.8):]
+train_data, test_data = gsef_selected[0:int(len(gsef_selected)*0.7)], gsef_selected[int(len(gsef_selected)*0.7):]
 
 # Load/split your data
 y_train, y_test = train_test_split(y, train_size= len(train_data))
