@@ -7,4 +7,4 @@ The "pmdarima" statistical library has been used for the time series analysis an
 A separate python notebook + script has been added to perform a separate function/analysis:
 - ETL from the Financial Times website.
 - A 10 buisness days Time Series forecast.
-- Bollinger Band.
+- Bollinger Bands (20 days).
