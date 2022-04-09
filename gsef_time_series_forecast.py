@@ -8,43 +8,11 @@ import pandas as pd
 import io
 import matplotlib.pyplot as plt
 
-pd.set_option('display.max_column',None)
-tomorrow = (datetime.date.today() + datetime.timedelta(days=1)).isoformat() #get tomorrow in iso format as needed'''
-url = pd.read_html("https://markets.ft.com/data/funds/tearsheet/historical?s=LU0119216553:EUR", header=0)
-table = url[0]
-gsef_latest = table[['Date', 'Close']]
-gsef_latest_selected= gsef_latest.copy()
+# GSEF forecast
+gsef= pd.read_csv('gsef_folder/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
 
-gsef_latest_selected['Date'] = gsef_latest_selected.loc[:,'Date'].str[-12:]
-gsef_latest_selected['Date'] = pd.to_datetime(gsef_latest_selected['Date'], dayfirst=True)
+#This analysis demonstrates the use of ARIMA models to predict the prices of the NN (L) Global Sustainable Equity fund.
 
-gsef_historical= pd.read_csv('gsef_folder/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
-
-gsef = pd.concat([gsef_latest_selected, gsef_historical], ignore_index=True).sort_values(by="Date")
-
-gsef = gsef.reset_index(drop=True)
-
-gsef['pct_change']= (gsef["Close"].pct_change()*100).round(2)
-
-gsef = gsef.drop_duplicates('Date')
-
-gsef.to_csv('gsef_folder/historical_gsef.csv', index=False)
-
-gsef.plot(x= 'Date', y='Close', figsize=(10,10), title= 'GSEF Price by Date', legend=False)
-
-#plt.show()
-
-historical_chart= 'gsef_folder/gsef_historical.png'
-
-import os
-if os.path.exists(historical_chart):
-  os.remove(historical_chart)
-else:
-  print("The graph didn't exist and it has been created.")
-
-plt.savefig('gsef_folder/gsef_historical.png')
-
-# GSEF Forecast
 ## Imports & data loading
 import pmdarima as pm
 from pmdarima.model_selection import train_test_split
@@ -124,10 +92,43 @@ for new_ob in y_test:
 print(f"Mean squared error: {mean_squared_error(y_test, forecasts)}")
 print(f"SMAPE: {smape(y_test, forecasts)}")
 
-print(model.summary())
+model.summary()
+
+## Viewing forecasts
+fig, axes = plt.subplots(2, 1, figsize=(12, 12))
+
+# --------------------- Actual vs. Predicted --------------------------
+axes[0].plot(y_train, color='blue', label='Training Data')
+axes[0].plot(test_data.index, forecasts, color='green', marker='o',
+             label='Predicted Price')
+
+axes[0].plot(test_data.index, y_test, color='red', label='Actual Price')
+axes[0].set_title('GSEF Prices Forecast')
+axes[0].set_xlabel('Dates')
+axes[0].set_ylabel('Prices')
+
+
+axes[0].legend()
+
+
+# ------------------ Predicted with confidence intervals ----------------
+axes[1].plot(y_train, color='blue', label='Training Data')
+axes[1].plot(test_data.index, forecasts, color='green',
+             label='Predicted Price')
+
+axes[1].set_title('Prices Forecasts & Confidence Intervals')
+axes[1].set_xlabel('Dates')
+axes[1].set_ylabel('Prices')
+
+conf_int = np.asarray(confidence_intervals)
+axes[1].fill_between(test_data.index,
+                     conf_int[:, 0], conf_int[:, 1],
+                     alpha=0.9, color='orange',
+                     label="Confidence Intervals")
+
+axes[1].legend()
 
 ## Forecast the Price for the next 10 business days
-# Forecast the Priece for the next 10 business days
 forecast= model.predict(start= len(gsef_selected), end= len(gsef_selected)+10, type= 'levels')
 
 following_day= gsef_selected.Date.iloc[-1]+ pd.DateOffset(1)
@@ -141,6 +142,8 @@ forecast_df.rename(columns={'index': 'Date'}, inplace=True)
 existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=True, sort=False)
 
 ## Visualise and save the forecasts
+#plt.plot(existing_with_forecast['Date'][:-10], existing_with_forecast['Close'][:-10], color='crimson')
+
 plt.figure(figsize=(18, 18))
 
 plt.plot(existing_with_forecast['Date'][-10:], existing_with_forecast['Close'][-10:], color='dodgerblue')
@@ -159,6 +162,8 @@ else:
 
 plt.savefig('gsef_folder/gsef_10_day_forecast.png', dpi=100)
 
+#plt.show()
+
 ## Time Elapsed
 # Calculate and print the time elapsed to run ETL process and the date and time of the latest run
 time_elapsed = timeit.default_timer() - start_time
@@ -169,4 +174,4 @@ time_elapsed_seconds = int(time_elapsed % 60)
 
 now = datetime.datetime.now()
 
-print("\n Success! Your GSEF data and forecast have been updated in {} minutes and {} seconds on {}".format(time_elapsed_minutes, time_elapsed_seconds, now.strftime("%Y-%m-%d %H:%M:%S")))
+print("\n Success! Your GSEF forecast has been updated in {} minutes and {} seconds on {}".format(time_elapsed_minutes, time_elapsed_seconds, now.strftime("%Y-%m-%d %H:%M:%S")))
