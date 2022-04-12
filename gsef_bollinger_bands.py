@@ -42,7 +42,7 @@ last_down_bollinger= bollinger_down.iloc[-1]
 
 last_closing_price= df.iloc[-1]['Close']
 
-if last_down_bollinger < last_closing_price:
+if last_closing_price > last_down_bollinger:
     to_do= 'Do not buy today.'
 else:
     to_do= 'Buy today.'
@@ -51,7 +51,7 @@ from matplotlib.pyplot import figure
 
 figure(figsize=(12, 8), dpi=80)
 
-plt.title(' Bollinger Bands')
+plt.title('Bollinger Bands')
 plt.xlabel('Days')
 plt.ylabel('Closing Prices')
 plt.plot(closing_prices, label='Closing Prices')
