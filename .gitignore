@@ -1,6 +1,7 @@
 .ipynb_checkpoints
+forecast_separately/
+bollinger_bands/
 update_gsef_data.bat
 update_bollinger_bands.bat
 update_time_series_forecast.bat
-forecast_separately/
-bollinger_bands/
+update_gsef_data_&_bollinger_bands.bat
