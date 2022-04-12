@@ -44,8 +44,6 @@ last_closing_price= df.iloc[-1]['Close']
 
 if last_down_bollinger < last_closing_price:
     to_do= 'Do not buy today.'
-elif last_up_bollinger < last_closing_price:
-    to_do= 'Sell today.'
 else:
     to_do= 'Buy today.'
     
