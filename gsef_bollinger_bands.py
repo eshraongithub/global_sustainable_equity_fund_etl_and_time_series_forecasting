@@ -77,10 +77,8 @@ plt.savefig('gsef_folder/bollinger_bands.png', dpi=100)
 # Calculate and print the time elapsed to run ETL process and the date and time of the latest run
 time_elapsed = timeit.default_timer() - start_time
 
-time_elapsed_minutes = int((time_elapsed % 3600) // 60)
-
 time_elapsed_seconds = int(time_elapsed % 60)
 
 now = datetime.datetime.now()
 
-print("\n Success! Your Bollinger Bands chart has been updated in {} minutes and {} seconds on {}".format(time_elapsed_minutes, time_elapsed_seconds, now.strftime("%Y-%m-%d %H:%M:%S")))
+print("\n Success! Your Bollinger Bands chart has been updated in {} seconds on {}".format(time_elapsed_seconds, now.strftime("%Y-%m-%d %H:%M:%S")))
