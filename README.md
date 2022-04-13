@@ -4,7 +4,7 @@ This project enables scraping and storing the data of the NN (L) Global Sustaina
 
 The "pmdarima" statistical library has been used for the time series analysis and forecast.
 
-A separate python notebook + script have been added to perform each of the following analyses and processes separately:
+A python notebook + script have been added to perform each of the following analyses and processes separately:
 - ETL from the Financial Times website.
 - A 10 buisness days Time Series forecast.
 - Bollinger Bands (20 days).
