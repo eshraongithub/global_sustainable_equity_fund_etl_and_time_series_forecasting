@@ -4,4 +4,4 @@ bollinger_bands/
 update_gsef_data.bat
 update_bollinger_bands.bat
 update_time_series_forecast.bat
-update_gsef_data_&_bollinger_bands.bat
+update_gsef_data_and_bollinger_bands.bat
