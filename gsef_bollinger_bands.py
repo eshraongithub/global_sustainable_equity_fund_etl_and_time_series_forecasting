@@ -19,7 +19,7 @@ def get_num_lines(fname):
 
 num_lines = get_num_lines("gsef_folder/historical_gsef.csv")
 
-n = 40
+n = 253 #number of trading days per year
 df = pd.read_csv("gsef_folder/historical_gsef.csv", skiprows=range(1, num_lines-n), parse_dates=['Date'], usecols= ["Date", "Close"], dayfirst=True)
 
 closing_prices = df['Close'] # Use only closing prices
@@ -60,7 +60,7 @@ plt.plot(bollinger_down, label='Bollinger Down', c='m')
 plt.legend()
 
 #adding text inside the plot
-plt.text(0, 535, to_do, fontsize = 22, c='g')
+plt.text(100, 520, to_do, fontsize = 22, c='g')
 
 bollinger_bands_chart= 'gsef_folder/bollinger_bands.png'
 
