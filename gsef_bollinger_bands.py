@@ -45,7 +45,7 @@ last_closing_price= df.iloc[-1]['Close']
 if last_closing_price > last_down_bollinger:
     to_do= 'Do not buy today.'
 else:
-    to_do= 'Buy today.'
+    to_do= 'Consider Buying today.'
     
 from matplotlib.pyplot import figure
 
