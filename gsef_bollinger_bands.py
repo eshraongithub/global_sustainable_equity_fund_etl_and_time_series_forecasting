@@ -19,7 +19,7 @@ def get_num_lines(fname):
 
 num_lines = get_num_lines("gsef_folder/historical_gsef.csv")
 
-n = 253 #number of trading days per year
+n = 506 #load the data of 2 trading years (number of trading days per year is 253)
 df = pd.read_csv("gsef_folder/historical_gsef.csv", skiprows=range(1, num_lines-n), parse_dates=['Date'], usecols= ["Date", "Close"], dayfirst=True)
 
 closing_prices = df['Close'] # Use only closing prices
