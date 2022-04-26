@@ -60,7 +60,7 @@ plt.plot(bollinger_down, label='Bollinger Down', c='m')
 plt.legend()
 
 #adding text inside the plot
-plt.text(100, 520, to_do, fontsize = 22, c='g')
+plt.text(100, 400, to_do, fontsize = 22, c='g')
 
 bollinger_bands_chart= 'gsef_folder/bollinger_bands.png'
 
