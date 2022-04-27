@@ -10,3 +10,5 @@ A python notebook + script have been added to perform each of the following anal
 - Bollinger Bands (20 days).
 
 The required version of Python and packages are included in the "gsef_venv" virtual environment that can be found in the "envs" folder.
+
+All output files are exported to the "gsef_output" folder.
