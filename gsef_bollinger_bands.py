@@ -17,10 +17,10 @@ def get_num_lines(fname):
             pass
     return i + 1
 
-num_lines = get_num_lines("gsef_folder/historical_gsef.csv")
+num_lines = get_num_lines("gsef_output/historical_gsef.csv")
 
 n = 506 #load the data of 2 trading years (number of trading days per year is 253)
-df = pd.read_csv("gsef_folder/historical_gsef.csv", skiprows=range(1, num_lines-n), parse_dates=['Date'], usecols= ["Date", "Close"], dayfirst=True)
+df = pd.read_csv("gsef_output/historical_gsef.csv", skiprows=range(1, num_lines-n), parse_dates=['Date'], usecols= ["Date", "Close"], dayfirst=True)
 
 closing_prices = df['Close'] # Use only closing prices
 
@@ -62,7 +62,7 @@ plt.legend()
 #adding text inside the plot
 plt.text(100, 400, to_do, fontsize = 22, c='g')
 
-bollinger_bands_chart= 'gsef_folder/bollinger_bands.png'
+bollinger_bands_chart= 'gsef_output/bollinger_bands.png'
 
 import os
 if os.path.exists(bollinger_bands_chart):
@@ -70,7 +70,7 @@ if os.path.exists(bollinger_bands_chart):
 else:
   print("The Bollinger Bands chart didn't exist and it has been created.")
 
-plt.savefig('gsef_folder/bollinger_bands.png', dpi=100)
+plt.savefig('gsef_output/bollinger_bands.png', dpi=100)
 
 #plt.show()
 

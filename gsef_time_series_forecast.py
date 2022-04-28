@@ -9,7 +9,7 @@ import io
 import matplotlib.pyplot as plt
 
 # GSEF forecast
-gsef= pd.read_csv('gsef_folder/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
+gsef= pd.read_csv('gsef_output/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
 
 #This analysis demonstrates the use of ARIMA models to predict the prices of the NN (L) Global Sustainable Equity fund.
 
@@ -152,7 +152,7 @@ plt.ylabel('Price')
 
 plt.title('GSEF 10 Business Days Forecast')
 
-forecast_chart= 'gsef_folder/gsef_10_day_forecast.png'
+forecast_chart= 'gsef_output/gsef_10_day_forecast.png'
 
 import os
 if os.path.exists(forecast_chart):
@@ -160,7 +160,7 @@ if os.path.exists(forecast_chart):
 else:
   print("The Forecast chart didn't exist and it has been created.")
 
-plt.savefig('gsef_folder/gsef_10_day_forecast.png', dpi=100)
+plt.savefig('gsef_output/gsef_10_day_forecast.png', dpi=100)
 
 #plt.show()
 

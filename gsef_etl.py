@@ -23,7 +23,7 @@ gsef_latest_selected['Date'] = gsef_latest_selected.loc[:,'Date'].str[-12:]
 gsef_latest_selected['Date'] = pd.to_datetime(gsef_latest_selected['Date'], dayfirst=True)
 
 # Read the saved historical data
-gsef_historical= pd.read_csv('gsef_folder/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
+gsef_historical= pd.read_csv('gsef_output/historical_gsef.csv', parse_dates=['Date'], dayfirst=True)
 
 # Combine the latest data with the historical data
 gsef = pd.concat([gsef_latest_selected, gsef_historical], ignore_index=True).sort_values(by="Date")
@@ -37,12 +37,12 @@ gsef['pct_change']= (gsef["Close"].pct_change()*100).round(2)
 gsef = gsef.drop_duplicates('Date')
 
 # Save the updated historical data
-gsef.to_csv('gsef_folder/historical_gsef.csv', index=False)
+gsef.to_csv('gsef_output/historical_gsef.csv', index=False)
 
 # Plot and save the historical data
 gsef.plot(x= 'Date', y='Close', figsize=(10,10), title= 'GSEF Price by Date', legend=False)
 
-historical_chart= 'gsef_folder/gsef_historical.png'
+historical_chart= 'gsef_output/gsef_historical.png'
 
 import os
 if os.path.exists(historical_chart):
@@ -50,7 +50,7 @@ if os.path.exists(historical_chart):
 else:
   print("The historical chart didn't exist and it has been created.")
 
-plt.savefig('gsef_folder/gsef_historical.png')
+plt.savefig('gsef_output/gsef_historical.png')
 
 #plt.show()
 
