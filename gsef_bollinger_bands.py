@@ -9,6 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import time
 import datetime
+from datetime import timedelta
 import io
 
 def get_num_lines(fname):
@@ -47,6 +48,11 @@ if last_closing_price > last_down_bollinger:
 else:
     to_do= 'Consider Buying today.'
     
+# Set series indexes as the data's date
+closing_prices= closing_prices.set_axis(df.Date)
+bollinger_up= bollinger_up.set_axis(df.Date)
+bollinger_down= bollinger_down.set_axis(df.Date)
+    
 from matplotlib.pyplot import figure
 
 figure(figsize=(12, 8), dpi=80)
@@ -54,13 +60,10 @@ figure(figsize=(12, 8), dpi=80)
 plt.title('Bollinger Bands')
 plt.xlabel('Days')
 plt.ylabel('Closing Prices')
-plt.plot(closing_prices, label='Closing Prices')
-plt.plot(bollinger_up, label='Bollinger Up', c='k')
-plt.plot(bollinger_down, label='Bollinger Down', c='m')
+closing_prices.plot(label='Closing Prices')
+bollinger_up.plot(label='Bollinger Up', c='k')
+bollinger_down.plot(label='Bollinger Down', c='m')
 plt.legend()
-
-#adding text inside the plot
-plt.text(100, 400, to_do, fontsize = 22, c='g')
 
 bollinger_bands_chart= 'gsef_output/bollinger_bands.png'
 
@@ -69,6 +72,14 @@ if os.path.exists(bollinger_bands_chart):
   os.remove(bollinger_bands_chart)
 else:
   print("The Bollinger Bands chart didn't exist and it has been created.")
+
+#adding text inside the plot
+
+today = datetime.date.today()
+two_trading_years_ago = today - timedelta(days=506)
+
+
+plt.text(two_trading_years_ago, 400, to_do, fontsize = 22, c='g')
 
 plt.savefig('gsef_output/bollinger_bands.png', dpi=100)
 
