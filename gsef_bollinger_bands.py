@@ -41,12 +41,16 @@ bollinger_up, bollinger_down = get_bollinger_bands(closing_prices)
 
 last_down_bollinger= bollinger_down.iloc[-1]
 
+last_up_bollinger= bollinger_up.iloc[-1]
+
 last_closing_price= df.iloc[-1]['Close']
 
-if last_closing_price > last_down_bollinger:
-    to_do= 'Do not buy today.'
-else:
-    to_do= 'Consider Buying today.'
+# if last_closing_price > last_up_bollinger:
+    # to_do= 'Price on or above upper Bollinger Band.'
+# if last_closing_price < last_down_bollinger:
+    # to_do= 'Price on or below lower Bollinger Band.'
+# else:
+    # to_do= 'Price between the Bollinger Bands.'
     
 # Set series indexes as the data's date
 closing_prices= closing_prices.set_axis(df.Date)
@@ -73,13 +77,10 @@ if os.path.exists(bollinger_bands_chart):
 else:
   print("The Bollinger Bands chart didn't exist and it has been created.")
 
-#adding text inside the plot
-
-today = datetime.date.today()
-two_trading_years_ago = today - timedelta(days=506)
-
-
-plt.text(two_trading_years_ago, 400, to_do, fontsize = 22, c='g')
+# Adding text inside the plot
+# today = datetime.date.today()
+# two_trading_years_ago = today - timedelta(days=506)
+# plt.text(two_trading_years_ago, 400, to_do, fontsize = 22, c='g')
 
 plt.savefig('gsef_output/bollinger_bands.png', dpi=100)
 
