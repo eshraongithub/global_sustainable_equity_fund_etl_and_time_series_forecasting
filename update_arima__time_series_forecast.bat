@@ -1,0 +1,2 @@
+@echo off
+cmd /k "call C:\Users\n1564253\Anaconda3\Scripts\activate.bat gsef & cd "C:\Users\n1564253\OneDrive - Liberty Mutual\Data Science\Projects\global_sustainable_equity_fund" & python gsef_arima_time_series_forecast.py & cd gsef_output & start gsef_10_day_forecast.png"
