@@ -11,4 +11,6 @@ A python notebook + script have been added to perform each of the following anal
 - A 10 buisness days Time Series forecast.
 - Bollinger Bands (20 days).
 
+A descriptive analysis python notebook is also included.
+
 All output files are exported to the "gsef_output" folder.
