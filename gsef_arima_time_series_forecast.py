@@ -142,7 +142,6 @@ forecast_df.rename(columns={'index': 'Date'}, inplace=True)
 existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=True, sort=False)
 
 ## Visualise and save the forecasts
-#plt.plot(existing_with_forecast['Date'][:-10], existing_with_forecast['Close'][:-10], color='crimson')
 
 plt.figure(figsize=(12, 8))
 
