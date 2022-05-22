@@ -67,6 +67,7 @@ auto = pm.auto_arima(y_train, d=n_diffs, seasonal=True, stepwise=True,
                      max_order=None, trace=True)
 
 ## Updating the model
+from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
 from pmdarima.metrics import smape
 
@@ -89,8 +90,19 @@ for new_ob in y_test:
     # Updates the existing model with a small number of MLE steps
     model.update(new_ob)
 
+print(f"Mean absolute error: {mean_absolute_error(y_test, forecasts)}")
+
+# Mean Absolute Percentage
+def mean_absolute_percentage_error(y_true, y_pred): 
+    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+mape= mean_absolute_percentage_error(y_test, forecasts) #same as MAE but percentage
+print(f"Mean absolute percentage error:", mape)
+
 print(f"Mean squared error: {mean_squared_error(y_test, forecasts)}")
+
 print(f"SMAPE: {smape(y_test, forecasts)}")
+
 
 model.summary()
 
