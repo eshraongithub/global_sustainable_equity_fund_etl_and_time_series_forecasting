@@ -53,13 +53,22 @@ for lag, ax_coords in enumerate(ax_idcs, 1):
 #plt.show()
 
 ## Estimating the differencing term
+# An integrative term, d, is typically only used in the case of non-stationary data. Stationarity in a time series indicates that a series’ statistical attributes, such as mean, variance, 
+# etc., are constant over time (i.e., it exhibits low heteroskedasticity).
+
+# A stationary time series is far more easy to learn and forecast from. With the d parameter, we can force the ARIMA model to adjust for non-stationarity on its own, without having to worry 
+# about doing so manually.
+
+# To make our data stationary in the case of ARIMA models, we estimate the appropriate differencing (d) value, and we use the estimated differencing value to difference the time series 
+# accordingly.
+
 from pmdarima.arima import ndiffs
 
 kpss_diffs = ndiffs(y_train, alpha=0.05, test='kpss', max_d=6)
 adf_diffs = ndiffs(y_train, alpha=0.05, test='adf', max_d=6)
 n_diffs = max(adf_diffs, kpss_diffs)
 
-print(f"Estimated differencing term: {n_diffs}")
+print(f"Estimated differencing value: {n_diffs}")
 
 ## Fitting our model
 auto = pm.auto_arima(y_train, d=n_diffs, seasonal=True, stepwise=True,
@@ -97,7 +106,7 @@ def mean_absolute_percentage_error(y_true, y_pred):
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
 mape= mean_absolute_percentage_error(y_test, forecasts) #same as MAE but percentage
-print(f"Mean absolute percentage error:", mape)
+print(f"Mean absolute percentage error (MAPE):", mape)
 
 print(f"Mean squared error: {mean_squared_error(y_test, forecasts)}")
 
