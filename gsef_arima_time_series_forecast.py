@@ -79,6 +79,7 @@ auto = pm.auto_arima(y_train, d=n_diffs, seasonal=True, stepwise=True,
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
 from pmdarima.metrics import smape
+from math import sqrt
 
 model = auto  # seeded from the model we've already fit
 
@@ -106,11 +107,13 @@ def mean_absolute_percentage_error(y_true, y_pred):
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
 mape= mean_absolute_percentage_error(y_test, forecasts) #same as MAE but percentage
-print(f"Mean absolute percentage error (MAPE):", mape)
+print(f"\nMean absolute percent error (MAPE):", mape)
 
-print(f"Mean squared error: {mean_squared_error(y_test, forecasts)}")
+print(f"\nMean squared error: {mean_squared_error(y_test, forecasts)}")
 
-print(f"SMAPE: {smape(y_test, forecasts)}")
+print(f"\nRoot mean squared error (RMSE): {sqrt(mean_squared_error(y_test, forecasts))}")
+
+print(f"\nSMAPE: {smape(y_test, forecasts)}")
 
 
 model.summary()
@@ -164,7 +167,7 @@ existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=Tru
 
 ## Visualise and save the forecasts
 
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(14, 10))
 
 plt.plot(existing_with_forecast['Date'][-10:], existing_with_forecast['Close'][-10:], color='dodgerblue')
 
@@ -194,4 +197,4 @@ time_elapsed_seconds = int(time_elapsed % 60)
 
 now = datetime.datetime.now()
 
-print("\n Success! Your GSEF forecast has been updated in {} minutes and {} seconds on {}".format(time_elapsed_minutes, time_elapsed_seconds, now.strftime("%Y-%m-%d %H:%M:%S")))
+print("\nSuccess! Your GSEF forecast has been updated in {} minutes and {} seconds on {}".format(time_elapsed_minutes, time_elapsed_seconds, now.strftime("%Y-%m-%d %H:%M:%S")))
