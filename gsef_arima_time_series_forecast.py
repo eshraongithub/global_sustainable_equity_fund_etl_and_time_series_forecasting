@@ -153,25 +153,55 @@ axes[1].fill_between(test_data.index,
 axes[1].legend()
 
 ## Forecast the Price for the next 10 business days
+# Forecast the Price for the next 10 business days
 forecast= model.predict(start= len(gsef_selected), end= len(gsef_selected)+10, type= 'levels')
 
 following_day= gsef_selected.Date.iloc[-1]+ pd.DateOffset(1)
 
 index_future_dates= pd.date_range(start= following_day, periods=10, freq='B')
 
-forecast_df = pd.DataFrame(forecast, columns = ['Close'], index= pd.DatetimeIndex(index_future_dates)).reset_index(level=0)
+forecast_df = pd.DataFrame(forecast, columns = ['Forecasted Closing Price'], index= pd.DatetimeIndex(index_future_dates)).reset_index(level=0)
 
 forecast_df.rename(columns={'index': 'Date'}, inplace=True)
 
 existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=True, sort=False)
 
+## Append only new forecast data points to the existing ones and calculate the difference between the forecast and known closing prices
+
+# Read the existing forecast
+existing_forecast= pd.read_csv('gsef_output/gsef_forecast.csv', parse_dates=['Date'], dayfirst=True)
+
+concat_forecast= pd.concat([existing_forecast, forecast_df], ignore_index=True).drop_duplicates('Date', keep='first').reset_index(drop=True).sort_values(by="Date")
+
+concat_forecast= pd.merge(concat_forecast, gsef_selected, on='Date', how='left')
+
+concat_forecast = concat_forecast.drop(['Close'],axis=1)
+
+#concat_forecast['Closing Price'] = concat_forecast['Close_x'].where(concat_forecast['Close_x'].notnull(), concat_forecast['Close_y'])
+
+#concat_forecast = concat_forecast.drop(['Close_x','Close_y'],axis=1)
+
+concat_forecast['Difference']= concat_forecast['Forecasted Closing Price'] - concat_forecast['Closing Price']
+
+#concat_forecast_cols= ['Date', 'Closing Price', 'Forecasted Closing Price', 'Difference']
+
+#concat_forecast = concat_forecast[concat_forecast_cols]
+
+## Save the updated forecasts, real closing prices and the difference between the forecast and known closing price for the corresponding dates
+# Output the appended forecast to a CSV file
+concat_forecast.to_csv('gsef_output/gsef_forecast.csv', index=False)
+
 ## Visualise and save the forecasts
 
 plt.figure(figsize=(14, 10))
 
-plt.plot(existing_with_forecast['Date'][-10:], existing_with_forecast['Close'][-10:], color='dodgerblue')
+plt.plot(existing_with_forecast['Date'][-10:], existing_with_forecast['Forecasted Closing Price'][-10:], color='dodgerblue')
 
-plt.ylabel('Price')
+#ax1.set_xticks(np.arange(len(existing_with_forecast['Date'][-10:])))
+
+#plt.yticks(np.arange(existing_with_forecast['Close'][-10:]))
+
+plt.ylabel('Forecasted Price')
 
 plt.title('GSEF 10 Business Days Forecast')
 
