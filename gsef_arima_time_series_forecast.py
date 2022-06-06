@@ -106,7 +106,7 @@ print(f"Mean absolute error: {mean_absolute_error(y_test, forecasts)}")
 def mean_absolute_percent_error(y_true, y_pred): 
     return np.mean(np.abs((y_true - y_pred) / y_true))
 
-mape= mean_absolute_percentage_error(y_test, forecasts) #same as MAE but percentage
+mape= mean_absolute_percent_error(y_test, forecasts) #same as MAE but percentage
 print(f"\nMean absolute percent error (MAPE):", mape)
 
 print(f"\nMean squared error: {mean_squared_error(y_test, forecasts)}")
