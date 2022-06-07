@@ -171,23 +171,19 @@ existing_with_forecast= pd.concat([gsef_selected, forecast_df], ignore_index=Tru
 # Read the existing forecast
 existing_forecast= pd.read_csv('gsef_output/gsef_forecast.csv', parse_dates=['Date'], dayfirst=True)
 
-concat_forecast= pd.concat([existing_forecast, forecast_df], ignore_index=True).drop_duplicates('Date', keep='first').reset_index(drop=True).sort_values(by="Date")
+merged_forecast= pd.merge(existing_forecast, gsef_selected.rename(columns={'Close':'Closing Price'}), how= 'left', left_on='Date', right_on='Date')
+merged_forecast["Closing Price_x"] = merged_forecast["Closing Price_x"].combine_first(merged_forecast["Closing Price_y"])
 
-concat_forecast= pd.merge(concat_forecast, gsef_selected, on='Date', how='left')
+merged_forecast= merged_forecast.drop('Closing Price_y', axis=1)
 
-concat_forecast = concat_forecast.drop(['Close'],axis=1)
+#merged_forecast= merged_forecast.set_index('Date')
 
-#concat_forecast['Closing Price'] = concat_forecast['Close_x'].where(concat_forecast['Close_x'].notnull(), concat_forecast['Close_y'])
+merged_forecast= merged_forecast.rename(columns={'Closing Price_x': 'Closing Price'}).sort_values(by="Date")
 
-#concat_forecast = concat_forecast.drop(['Close_x','Close_y'],axis=1)
-
-concat_forecast['Difference']= concat_forecast['Forecasted Closing Price'] - concat_forecast['Closing Price']
-
-#concat_forecast_cols= ['Date', 'Closing Price', 'Forecasted Closing Price', 'Difference']
-
-#concat_forecast = concat_forecast[concat_forecast_cols]
+merged_forecast['Difference']= merged_forecast['Forecasted Closing Price'] - merged_forecast['Closing Price']
 
 ## Save the updated forecasts, real closing prices and the difference between the forecast and known closing price for the corresponding dates
+
 # Output the appended forecast to a CSV file
 concat_forecast.to_csv('gsef_output/gsef_forecast.csv', index=False)
 
