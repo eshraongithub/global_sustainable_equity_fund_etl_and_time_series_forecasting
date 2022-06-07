@@ -185,7 +185,7 @@ merged_forecast['Difference']= merged_forecast['Forecasted Closing Price'] - mer
 ## Save the updated forecasts, real closing prices and the difference between the forecast and known closing price for the corresponding dates
 
 # Output the appended forecast to a CSV file
-concat_forecast.to_csv('gsef_output/gsef_forecast.csv', index=False)
+merged_forecast.to_csv('gsef_output/gsef_forecast.csv', index=False)
 
 ## Visualise and save the forecasts
 
