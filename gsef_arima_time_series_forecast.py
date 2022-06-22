@@ -71,7 +71,7 @@ n_diffs = max(adf_diffs, kpss_diffs)
 print(f"Estimated differencing value: {n_diffs}")
 
 ## Fitting our model
-auto = pm.auto_arima(y_train, d=n_diffs, seasonal=True, stepwise=True,
+model = pm.auto_arima(y_train, d=n_diffs, seasonal=True, stepwise=True,
                      suppress_warnings=True, error_action="ignore", max_p=6,
                      max_order=None, trace=True)
 
@@ -80,8 +80,6 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
 from pmdarima.metrics import smape
 from math import sqrt
-
-model = auto  # seeded from the model we've already fit
 
 def forecast_one_step():
     fc, conf_int = model.predict(n_periods=1, return_conf_int=True)
@@ -100,20 +98,20 @@ for new_ob in y_test:
     # Updates the existing model with a small number of MLE steps
     model.update(new_ob)
 
-print(f"Mean absolute error: {mean_absolute_error(y_test, forecasts)}")
+print(f"Mean absolute error/deviation (MAE/MAD): {round(mean_absolute_error(y_test, forecasts), 2)}")
 
-# Mean Absolute Percentage
-def mean_absolute_percent_error(y_true, y_pred): 
-    return np.mean(np.abs((y_true - y_pred) / y_true))
+# Mean Absolute Percent
+def mean_absolute_percent_error(y_test, forecasts): 
+    return round(np.mean(np.abs((y_test - forecasts) / forecasts)), 2)
 
-mape= mean_absolute_percent_error(y_test, forecasts) #same as MAE but percentage
-print(f"\nMean absolute percent error (MAPE):", mape)
+mape= round(mean_absolute_percent_error(y_test, forecasts), 2) #same as MAE but percentage
+print(f"\nMean absolute percent error (MAPE):", round(mape, 2))
 
-print(f"\nMean squared error: {mean_squared_error(y_test, forecasts)}")
+print(f"\nMean squared error: {round(mean_squared_error(y_test, forecasts), 2)}")
 
-print(f"\nRoot mean squared error (RMSE): {sqrt(mean_squared_error(y_test, forecasts))}")
+print(f"\nRoot mean squared error (RMSE): {round(sqrt(mean_squared_error(y_test, forecasts)), 2)}")
 
-print(f"\nSMAPE: {smape(y_test, forecasts)}")
+print(f"\nSMAPE: {round(smape(y_test, forecasts), 2)}")
 
 
 model.summary()
