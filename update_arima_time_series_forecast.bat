@@ -1,2 +1,2 @@
 @echo off
-cmd /k "call C:\Users\mohamed.a.eshra\Anaconda3\Scripts\activate.bat gsef & cd "C:\Users\mohamed.a.eshra\OneDrive - Accenture\Data Science\Data Science Projects\Eshra Data Science Projects\nn-global-sustainable-equity-fund-etl-and-time-series-forecasting" & python gsef_arima_time_series_forecast.py & cd gsef_output & start gsef_10_day_forecast.png"
+cmd /k "call C:\Users\mohamed.a.eshra\Anaconda3\Scripts\activate.bat gsef & cd "C:\Users\mohamed.a.eshra\OneDrive - Accenture\Data Science\Data Science Projects\Eshra Data Science Projects\nn-global-sustainable-equity-fund-etl-and-time-series-forecasting" & python gsef_time_series_forecast_pmdarima.py & cd gsef_output & start gsef_10_day_forecast.png"
